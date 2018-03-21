@@ -5,9 +5,9 @@
     <title>Observer Pattern - Ezo inc</title>
 
     <script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
 
     <style>
         output {
@@ -23,59 +23,59 @@
 <output id="liveOutput2"></output>
 <output id="liveOutput3"></output>
 
-    <script>
-        $(document).ready(function () {
+<script>
+    $(document).ready(function () {
 
-            const userInputField = $('#userInput');
-            const obersvable = new UserInputObservable(userInputField);
+        const userInputField = $('#userInput');
+        const obersvable = new UserInputObservable(userInputField);
 
-            const liveOutput1 = $('#liveOutput1');
-            const liveOutput2 = $('#liveOutput2');
-            const liveOutput3 = $('#liveOutput3');
+        const liveOutput1 = $('#liveOutput1');
+        const liveOutput2 = $('#liveOutput2');
+        const liveOutput3 = $('#liveOutput3');
 
-            const obersver1 = new UserOutputObserver(liveOutput1, obersvable);
-            const obersver2 = new UserOutputObserver(liveOutput2, obersvable);
-            const obersver3 = new UserOutputObserver(liveOutput3, obersvable);
+        const obersver1 = new UserOutputObserver(liveOutput1, obersvable);
+        const obersver2 = new UserOutputObserver(liveOutput2, obersvable);
+        const obersver3 = new UserOutputObserver(liveOutput3, obersvable);
 
-            function UserInputObservable (observedField) {
-                let userInput = '';
-                const registeredObservers = [];
+        function UserInputObservable(observedField) {
+            let userInput = '';
+            const registeredObservers = [];
 
-                initialize();
+            initialize();
 
-                function initialize() {
-                    observedField.keyup(function () {
-                        userInput = $(this).val();
-                        notifyObservers();
-                    });
-                }
-
-                function notifyObservers() {
-                    for (const currentObserver of registeredObservers) {
-                        currentObserver(userInput);
-                    }
-                }
-
-                function registerToInputChange(observer) {
-                    registeredObservers.push(observer);
-                }
-
-                return {
-                    registerToInputChange: registerToInputChange
-                };
+            function initialize() {
+                observedField.keyup(function () {
+                    userInput = $(this).val();
+                    notifyObservers();
+                });
             }
 
-            function UserOutputObserver (liveOutput, observable) {
-
-                initialize();
-
-                function initialize() {
-                    observable.registerToInputChange(function (newValue) {
-                        liveOutput.html(newValue);
-                    });
+            function notifyObservers() {
+                for (const currentObserver of registeredObservers) {
+                    currentObserver(userInput);
                 }
             }
-        });
-    </script>
+
+            function registerToInputChange(observer) {
+                registeredObservers.push(observer);
+            }
+
+            return {
+                registerToInputChange: registerToInputChange
+            };
+        }
+
+        function UserOutputObserver(liveOutput, observable) {
+
+            initialize();
+
+            function initialize() {
+                observable.registerToInputChange(function (newValue) {
+                    liveOutput.html(newValue);
+                });
+            }
+        }
+    });
+</script>
 </body>
 </html>
