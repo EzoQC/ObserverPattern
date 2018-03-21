@@ -1,0 +1,19 @@
+{
+  "name": "observerpattern",
+  "version": "1.0.0",
+  "description": "Demo du patron observateur observé",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EzoQC/ObserverPattern.git"
+  },
+  "author": "Ezo Inc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EzoQC/ObserverPattern/issues"
+  },
+  "homepage": "https://github.com/EzoQC/ObserverPattern#readme"
+}

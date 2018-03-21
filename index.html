@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Observer Pattern - Ezo inc</title>
+
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+    <style>
+        output {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<label for="userInput">Entrez du texte : </label>
+<input id="userInput" type="text">
+
+<output id="liveOutput1"></output>
+<output id="liveOutput2"></output>
+<output id="liveOutput3"></output>
+
+    <script>
+        $(document).ready(function () {
+
+            const userInputField = $('#userInput');
+            const obersvable = new UserInputObservable(userInputField);
+
+            const liveOutput1 = $('#liveOutput1');
+            const liveOutput2 = $('#liveOutput2');
+            const liveOutput3 = $('#liveOutput3');
+
+            const obersver1 = new UserOutputObserver(liveOutput1, obersvable);
+            const obersver2 = new UserOutputObserver(liveOutput2, obersvable);
+            const obersver3 = new UserOutputObserver(liveOutput3, obersvable);
+
+            function UserInputObservable (observedField) {
+                let userInput = '';
+                const registeredObservers = [];
+
+                initialize();
+
+                function initialize() {
+                    observedField.keyup(function () {
+                        userInput = $(this).val();
+                        notifyObservers();
+                    });
+                }
+
+                function notifyObservers() {
+                    for (const currentObserver of registeredObservers) {
+                        currentObserver(userInput);
+                    }
+                }
+
+                function registerToInputChange(observer) {
+                    registeredObservers.push(observer);
+                }
+
+                return {
+                    registerToInputChange: registerToInputChange
+                };
+            }
+
+            function UserOutputObserver (liveOutput, observable) {
+
+                initialize();
+
+                function initialize() {
+                    observable.registerToInputChange(function (newValue) {
+                        liveOutput.html(newValue);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
